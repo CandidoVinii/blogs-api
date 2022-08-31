@@ -2,12 +2,11 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../database/models');
 require('dotenv').config();
 
-const login = async ({ email, password }) => {
-    const user = await User.findOne({ where: { email, password } });
-    console.log(user);
+const createUser = async ({ displayName, email, password, image }) => {
+    const user = await User.create({ displayName, email, password, image });
 
     if (!user) {
-        return null;
+        return false;
     }
 
     const generateToken = jwt.sign({ email: user.email },
@@ -16,4 +15,4 @@ const login = async ({ email, password }) => {
     return generateToken;
 };
 
-module.exports = { login };
+module.exports = { createUser };

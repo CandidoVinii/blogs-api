@@ -14,7 +14,7 @@
 //       BlogPost.belongsTo(models.User, {
 //         foreignKey: 'userId'
 //       })
-//       BlogPost.hasMany(models.PostCategories, {
+//         BlogPost.hasMany(models.PostCategories, {
 //         foreignKey: 'postId'
 //       })
 //     }

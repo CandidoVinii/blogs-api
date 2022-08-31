@@ -15,4 +15,10 @@ const createUser = async ({ displayName, email, password, image }) => {
     return generateToken;
 };
 
-module.exports = { createUser };
+const getAllUsers = async () => {
+    const getAll = await User.findAll({ attributes: { exclude: ['password'] } });
+
+    return getAll;
+};
+
+module.exports = { createUser, getAllUsers };

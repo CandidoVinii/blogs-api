@@ -3,14 +3,14 @@ require('dotenv').config();
 
 function verifyjwt(req, res, next) {
  const token = req.header('Authorization');
- if (!token) return res.status(401).send({ message: 'Invalid token' });
+ if (!token) return res.status(401).send({ message: 'Token not found' });
 
  try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
  } catch (err) {
-    return res.status(400).message({ message: 'Token invalid' });
+    return res.status(401).send({ message: 'Expired or invalid token' });
  }
 }
 

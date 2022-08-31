@@ -33,8 +33,8 @@
 //   return BlogPost;
 // };
 
-const BlogPost = (sequelize, DataTypes) => {
-  const BlogPost = sequelize.define("BlogPost", {
+const blogPost = (sequelize, DataTypes) => {
+  const blogPost = sequelize.define("BlogPost", {
     id: {
       primaryKey: true,
       autoIncrement: true,
@@ -56,19 +56,19 @@ const BlogPost = (sequelize, DataTypes) => {
     },
   }, { timestamps: false });
 
-  BlogPost.associate = (models) => {
-    BlogPost.hasMany(models.PostCategory, {
+  blogPost.associate = (models) => {
+    blogPost.hasMany(models.PostCategory, {
       foreignKey: 'postId',
       as: 'postCategories',
     });
 
-    BlogPost.belongsTo(models.User, {
+    blogPost.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
   };
 
-  return BlogPost;
+  return blogPost;
 };
 
-module.exports = BlogPost;
+module.exports = blogPost;

@@ -34,27 +34,29 @@
 // };
 
 const blogPost = (sequelize, DataTypes) => {
-  const blogPost = sequelize.define("BlogPost", {
-    id: {
-      primaryKey: true,
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-    },
-    title: DataTypes.STRING,
-    content: DataTypes.TEXT,
-    userId: {
-      foreignKey: true,
-      type: DataTypes.INTEGER,
-    },
-    published: {
-      defaultValue: DataTypes.NOW,
-      type: DataTypes.DATE,
-    },
-    updated: {
-      defaultValue: DataTypes.NOW,
-      type: DataTypes.DATE,
-    },
-  }, { timestamps: false });
+  const blogPost = sequelize.define('BlogPost', {
+      id: {
+        primaryKey: true,
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+      },
+      title: DataTypes.STRING,
+      content: DataTypes.TEXT,
+      userId: {
+        foreignKey: true,
+        type: DataTypes.INTEGER,
+      },
+      published: {
+        defaultValue: DataTypes.NOW,
+        type: DataTypes.DATE,
+      },
+      updated: {
+        defaultValue: DataTypes.NOW,
+        type: DataTypes.DATE,
+      },
+    }, 
+    { timestamps: false }
+  );
 
   blogPost.associate = (models) => {
     blogPost.hasMany(models.PostCategory, {

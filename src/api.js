@@ -14,6 +14,8 @@ app.post('/login', controllerLogin.login);
 app.post('/user', validation.userValidation, validation.userVerificate, controllerUser.create);
 
 app.get('/user', tokenValidate, controllerUser.getAll);
+
+app.get('/user/:id', tokenValidate, controllerUser.getById);
 // ....
 
 // É importante exportar a constante `app`,

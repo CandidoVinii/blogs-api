@@ -23,6 +23,8 @@ app.post('/categories',
 tokenValidate,
 category.categoryValidate,
 controllerCategory.categoryCreator);
+
+app.get('/categories', tokenValidate, controllerCategory.getAllCategories);
 // ....
 
 // É importante exportar a constante `app`,

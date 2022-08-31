@@ -7,4 +7,10 @@ const createCategory = async ({ name }) => {
     return create;
 };
 
-module.exports = { createCategory };
+const getCategories = async () => {
+    const response = await Category.findAll();
+
+    return response;
+};
+
+module.exports = { createCategory, getCategories };

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       PostCategories.belongsTo(models.BlogPost, {
         foreignKey: 'postId'
       })
-      PostCategories.belongsTo(models.Categories, {
+      PostCategories.belongsTo(models.Category, {
         foreignKey: 'categoryId',
       })
     }

@@ -8,13 +8,27 @@ const { User, BlogPost, Category } = require('../database/models');
 
 const getAllPosts = async () => {
     const response = await BlogPost.findAll({
-    include: [
-        { model: User, as: 'user', attributes: { exclude: ['password'] } },
-        { model: Category, as: 'categories', through: { attributes: [] } },
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } },
+            { model: Category, as: 'categories', through: { attributes: [] } },
         ],
     });
 
     return response;
 };
 
-module.exports = { getAllPosts };
+const postById = async ({ id }) => {
+    const findOne = await BlogPost.findOne({
+        where: { id },
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } },
+            { model: Category, as: 'categories', through: { attributes: [] } },
+        ],
+    });
+
+    if (!findOne) return false;
+
+    return findOne;
+};
+
+module.exports = { getAllPosts, postById };

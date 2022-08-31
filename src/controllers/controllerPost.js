@@ -1,4 +1,4 @@
-const { getAllPosts } = require('../services/post');
+const { getAllPosts, postById } = require('../services/post');
 
 // const postCreator = async (req, res) => {
 //     const { title, content, categoryIds } = req.body;
@@ -16,4 +16,13 @@ const getAllBlogsPosts = async (_req, res) => {
     return res.status(200).send(response);
 };
 
-module.exports = { getAllBlogsPosts };
+const getPostById = async (req, res) => {
+    const { id } = req.params;
+
+    const response = await postById({ id });
+    if (!response) return res.status(404).send({ message: 'Post does not exist' });
+
+    return res.status(200).send(response);
+};
+
+module.exports = { getAllBlogsPosts, getPostById };

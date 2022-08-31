@@ -30,6 +30,8 @@ app.get('/categories', tokenValidate, controllerCategory.getAllCategories);
 // app.post('/post', tokenValidate, controllerPost.postCreator);
 
 app.get('/post', tokenValidate, controllerPost.getAllBlogsPosts);
+
+app.get('/post/:id', tokenValidate, controllerPost.getPostById);
 // ....
 
 // É importante exportar a constante `app`,

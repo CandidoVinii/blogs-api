@@ -66,6 +66,7 @@ const blogPost = (sequelize, DataTypes) => {
 
     blogPost.belongsTo(models.User, {
       foreignKey: 'userId',
+      as: 'user',
     });
   };
 

@@ -12,7 +12,7 @@ const schema = Joi.object({
     password: Joi.string().min(6).required().messages({
       'any.required': '"password" length must be at least 6 characters long',
     }),
-    image: Joi.string().required(),
+    image: Joi.string().optional(),
   });
   
   const userValidation = async (req, res, next) => {

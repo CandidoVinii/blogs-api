@@ -1,62 +1,35 @@
-// 'use strict';
-// const {
-//   Model
-// } = require('sequelize');
-// module.exports = (sequelize, DataTypes) => {
-//   class PostCategories extends Model {
-//     /**
-//      * Helper method for defining associations.
-//      * This method is not a part of Sequelize lifecycle.
-//      * The `models/index` file will call this method automatically.
-//      */
-//     static associate(models) {
-//       // define association here
-//       PostCategories.belongsTo(models.BlogPost, {
-//         foreignKey: 'postId'
-//       })
-//       PostCategories.belongsTo(models.Category, {
-//         foreignKey: 'categoryId',
-//       })
-//     }
-//   };
-//   PostCategories.init({
-//     postId: DataTypes.INTEGER,
-//     categoryId: DataTypes.INTEGER
-//   }, {
-//     sequelize,
-//     modelName: 'PostCategories',
-//   });
-//   return PostCategories;
-// };
-
-const PostCategory = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const PostCategory = sequelize.define("PostCategory", {
-    id: {
+    postId: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+      primaryKey: true
     },
-    postId: DataTypes.INTEGER,
-    categoryId: DataTypes.INTEGER
-  }, { timestamps: false });
+    categoryId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    }
+  },
+  {timestamps: false, 
+  tableName:'PostCategories'
+  }
+  );
 
-  PostCategory.associate = (models) => {
-    models.BlogPost.belongsToMany(models.Category, {
-      through: models.PostCategory,
-      foreignKey: 'postId',
-      otherKey: 'categoryId',
-      as: 'categories',
-    });
-
+  PostCategory.associate = (models) => { 
     models.Category.belongsToMany(models.BlogPost, {
-      through: models.PostCategory,
-      foreignKey: 'categoryId',
-      otherKey: 'postId',
       as: 'blogPosts',
-    });
-  };
+      through: PostCategory,
+      foreignKey: 'postId',
+      otherKey: 'categoryId'
+    })
+
+
+    models.BlogPost.belongsToMany(models.Category, {
+      as: 'categories',
+      through: PostCategory,
+      foreignKey: 'categoryId',
+      otherKey:'postId'
+    })
+  }
 
   return PostCategory;
-};
-
-module.exports = PostCategory;
+}

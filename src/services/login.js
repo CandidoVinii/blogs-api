@@ -4,7 +4,7 @@ const { User } = require('../database/models');
 require('dotenv').config();
 
 const login = async ({ email, password }) => {
-    const secretePassword =  md5(password);
+    const secretePassword = md5(password);
     const user = await User.findOne({ where: { email, password: secretePassword } });
     if (!user) return null;
 

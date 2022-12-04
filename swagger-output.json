@@ -240,6 +240,24 @@
             "name": "Authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "content": {
+                  "example": "any"
+                },
+                "categoryIds": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {

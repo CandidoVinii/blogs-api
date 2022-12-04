@@ -11,5 +11,4 @@ router.post('/', tokenValidate, controller.postCreator);
 router.patch('/:id', tokenValidate, controller.postUpdate);
 router.delete('/:id', tokenValidate, controller.postDelete);
 
-
 module.exports = router;

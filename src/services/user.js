@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../database/models');
 const md5 = require('md5');
+const { User } = require('../database/models');
 require('dotenv').config();
 
 const createUser = async ({ displayName, email, password, image }) => {

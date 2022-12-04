@@ -1,16 +1,18 @@
-const { User, BlogPost, Category, PostCategory, sequelize } = require('../database/models');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const { User, BlogPost, Category, PostCategory, sequelize } = require('../database/models');
 
 const createPost = async (data, token) => {
     const decodeToken = jwt.decode(token, { complete: true });
-    const id = decodeToken.payload.id;
+    const { id } = decodeToken.payload;
     const response = await sequelize.transaction(async (t) => {
         const post = await BlogPost.create(
             { title: data.title, content: data.content, userId: id },
             { transaction: t },
         );
-        const categories = data.categoryIds.map((getId) => ({ postId: post.id, categoryId: getId }));
+        const categories = data.categoryIds.map((getId) => (
+            { postId: post.id, categoryId: getId }
+        ));
         await PostCategory.bulkCreate(
             categories,
             { transaction: t },
@@ -56,33 +58,34 @@ const searchPost = async (searchString) => {
         include: [
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
             { model: Category, as: 'categories', through: { attributes: [] } },
-        ]
+        ],
     });
-    if(search.length === 0) return false;
+    if (search.length === 0) return false;
     return search;
-}
+};
 
 const deletePost = async (postId, token) => {
     const findPost = await BlogPost.findByPk(postId);
     const decodeToken = jwt.decode(token, { complete: true });
-    const id = decodeToken.payload.id;
-    if(!findPost) return false;
-    if(findPost.userId !== id) return false;
+    const { id } = decodeToken.payload;
+    if (!findPost) return false;
+    if (findPost.userId !== id) return false;
     await BlogPost.destroy({
-        where: { id: postId }
+        where: { id: postId },
     });
 };
 
 const updatePost = async (postId, token, { title, content }) => {
     const findPost = await BlogPost.findByPk(postId);
     const decodeToken = jwt.decode(token, { complete: true });
-    const id = decodeToken.payload.id;
-    if(!findPost) return false;
-    if(findPost.userId !== id) return false;
+    const { id } = decodeToken.payload;
+    if (!findPost) return false;
+    if (findPost.userId !== id) return false;
     await BlogPost.update(
         { title, content },
         { where: { id: postId } },
     );
-    return await BlogPost.findByPk(postId);
-}
+    const findUpdate = await BlogPost.findByPk(postId);
+    return findUpdate;
+};
 module.exports = { getAllPosts, postById, createPost, searchPost, deletePost, updatePost };

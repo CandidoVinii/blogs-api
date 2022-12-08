@@ -6,6 +6,14 @@ Projeto pessoal para a criação de um blog público com controle de usuários d
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento.
 
+## Diagrama ER e Entidades
+<details>
+
+  #### Diagrama de Entidade-Relacionamento
+
+  ![DER](./public/der.png)
+</details>
+
 ## 📋 Pré-requisitos
  - [Node](https://nodejs.org/en/) na versão 16.
  - IDE da sua escolha.

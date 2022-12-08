@@ -1,10 +1,9 @@
-const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
-const { User, BlogPost, Category, PostCategory, sequelize } = require('../database/models');
+const { User, BlogPost, Category, sequelize, PostCategory } = require('../database/models');
+const TokenMediator = require('../Utils/token');
 
 const createPost = async (data, token) => {
-    const decodeToken = jwt.decode(token, { complete: true });
-    const { id } = decodeToken.payload;
+    const id = TokenMediator.decode(token);
     const response = await sequelize.transaction(async (t) => {
         const post = await BlogPost.create(
             { title: data.title, content: data.content, userId: id },
@@ -25,11 +24,10 @@ const createPost = async (data, token) => {
 const getAllPosts = async () => {
     const response = await BlogPost.findAll({
         include: [
+            { model: Category, as: 'categories', attributes: { exclude: ['id'] } },
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
-            { model: Category, as: 'categories', through: { attributes: [] } },
         ],
     });
-
     return response;
 };
 
@@ -37,11 +35,11 @@ const postById = async ({ id }) => {
     const findOne = await BlogPost.findOne({
         where: { id },
         include: [
+            { model: Category, as: 'categories', attributes: { exclude: ['id'] } },
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
-            { model: Category, as: 'categories', through: { attributes: [] } },
         ],
     });
-
+    
     if (!findOne) return false;
 
     return findOne;
@@ -56,8 +54,8 @@ const searchPost = async (searchString) => {
             ],
         },
         include: [
+            { model: Category, as: 'categories', attributes: { exclude: ['id', 'postId'] } },
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
-            { model: Category, as: 'categories', through: { attributes: [] } },
         ],
     });
     if (search.length === 0) return false;
@@ -65,27 +63,27 @@ const searchPost = async (searchString) => {
 };
 
 const deletePost = async (postId, token) => {
-    const findPost = await BlogPost.findByPk(postId);
-    const decodeToken = jwt.decode(token, { complete: true });
-    const { id } = decodeToken.payload;
+    const intID = Number(postId);
+    const findPost = await postById({ id: intID });
+    const id = TokenMediator.decode(token);
     if (!findPost) return false;
-    if (findPost.userId !== id) return false;
+    if (findPost.dataValues.userId !== id) return false;
     await BlogPost.destroy({
         where: { id: postId },
     });
 };
 
 const updatePost = async (postId, token, { title, content }) => {
-    const findPost = await BlogPost.findByPk(postId);
-    const decodeToken = jwt.decode(token, { complete: true });
-    const { id } = decodeToken.payload;
+    const intID = Number(postId);
+    const findPost = await postById({ id: intID });
+    const id = TokenMediator.decode(token);
     if (!findPost) return false;
-    if (findPost.userId !== id) return false;
+    if (findPost.dataValues.userId !== id) return false;
     await BlogPost.update(
         { title, content },
         { where: { id: postId } },
     );
-    const findUpdate = await BlogPost.findByPk(postId);
+    const findUpdate = await postById({ id: intID });
     return findUpdate;
 };
 module.exports = { getAllPosts, postById, createPost, searchPost, deletePost, updatePost };

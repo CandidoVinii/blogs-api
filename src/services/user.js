@@ -1,16 +1,14 @@
-const jwt = require('jsonwebtoken');
-const md5 = require('md5');
 const { User } = require('../database/models');
-require('dotenv').config();
+const HashPassword = require('../Utils/hashPassword');
+const TokenMediator = require('../Utils/token');
 
 const createUser = async ({ displayName, email, password, image }) => {
-    const secretePassword = md5(password);
-    const user = await User.create({ displayName, email, password: secretePassword, image });
+    const secretPass = HashPassword.createHash(password);
+    const user = await User.create({ displayName, email, password: secretPass, image });
 
-    const generateToken = jwt.sign({ secretePassword, id: user.id },
-        process.env.JWT_SECRET, { algorithm: 'HS256', expiresIn: 3600 });
+    const token = TokenMediator.create(secretPass, user.id);
 
-    return generateToken;
+    return token;
 };
 
 const getAllUsers = async () => {

@@ -7,7 +7,7 @@ const categoryValidate = async (req, res, next) => {
     const findCategory = await Category.findOne({ where: { name } });
 
     if (findCategory) {
-        return res.status(409).json({ message: 'User already registered' });
+        return res.status(409).json({ message: 'Category already registered' });
     }
 
     next();

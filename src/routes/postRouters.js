@@ -9,7 +9,7 @@ router.get('/search', tokenValidate, controller.postSearch);
 router.get('/', tokenValidate, controller.getAllBlogsPosts);
 router.get('/:id', tokenValidate, controller.getPostById);
 router.post('/', tokenValidate, postValidate, controller.postCreator);
-router.patch('/:id', tokenValidate, postValidate, controller.postUpdate);
+router.patch('/:id', tokenValidate, controller.postUpdate);
 router.delete('/:id', tokenValidate, controller.postDelete);
 
 module.exports = router;

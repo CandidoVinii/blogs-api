@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { User, BlogPost, Category, sequelize } = require('../database/models');
+const { User, BlogPost, Category, sequelize, PostCategory } = require('../database/models');
 const TokenMediator = require('../Utils/token');
 
 const createPost = async (data, token) => {
@@ -24,7 +24,7 @@ const createPost = async (data, token) => {
 const getAllPosts = async () => {
     const response = await BlogPost.findAll({
         include: [
-            { model: Category, as: 'categories',  attributes: { exclude: ['id'] } },
+            { model: Category, as: 'categories', attributes: { exclude: ['id'] } },
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
         ],
     });
@@ -54,7 +54,7 @@ const searchPost = async (searchString) => {
             ],
         },
         include: [
-            { model: Category, as: 'categories',  attributes: { exclude: ['id', 'postId'] } },
+            { model: Category, as: 'categories', attributes: { exclude: ['id', 'postId'] } },
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
         ],
     });

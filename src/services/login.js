@@ -3,11 +3,11 @@ const HashPassword = require('../Utils/hashPassword');
 const TokenMediator = require('../Utils/token');
 
 const login = async ({ email, password }) => {
-    const secretPass =  HashPassword.createHash(password);
+    const secretPass = HashPassword.createHash(password);
     const user = await User.findOne({ where: { email, password: secretPass } });
-    if (!user) return null;
+    if (!user) return false;
 
-    const token = TokenMediator.create(user.password, user.id)
+    const token = TokenMediator.create(user.password, user.id);
 
     return token;
 };

@@ -3,7 +3,7 @@ const HashPassword = require('../Utils/hashPassword');
 const TokenMediator = require('../Utils/token');
 
 const createUser = async ({ displayName, email, password, image }) => {
-    const secretPass = HashPassword.createHash(password)
+    const secretPass = HashPassword.createHash(password);
     const user = await User.create({ displayName, email, password: secretPass, image });
 
     const token = TokenMediator.create(secretPass, user.id);

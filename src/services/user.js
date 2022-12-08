@@ -1,4 +1,3 @@
-const md5 = require('md5');
 const { User } = require('../database/models');
 const HashPassword = require('../Utils/hashPassword');
 const TokenMediator = require('../Utils/token');

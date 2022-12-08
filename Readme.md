@@ -60,7 +60,7 @@ Essas instruções permitirão que você obtenha uma cópia do projeto em opera�
  * ``` npm run drop ``` para dropar as tabelas do banco de dados.
  * ``` npm run seed ``` para popular as tabelas com os arquivos da pasta seeders.
  * ``` npm run start-gendoc ``` para atualizar a documentação do swagger.
-  * > Para acessar a documentação do swagger basta acessar http://localhost:${Sua porta}/doc/
+  * > Para acessar a documentação do swagger basta acessar http://localhost:3000/doc/
 
 ## Utilidades
   > Caso queira fazer uso da API estarei deixando uma collection do POSTMAN com todas as operações presentes.

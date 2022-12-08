@@ -6,7 +6,7 @@ const createUser = async ({ displayName, email, password, image }) => {
     const secretPass = HashPassword.createHash(password)
     const user = await User.create({ displayName, email, password: secretPass, image });
 
-    const token = TokenMediator.createToken(secretPass, user.id);
+    const token = TokenMediator.create(secretPass, user.id);
 
     return token;
 };

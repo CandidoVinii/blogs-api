@@ -7,7 +7,7 @@ const login = async ({ email, password }) => {
     const user = await User.findOne({ where: { email, password: secretPass } });
     if (!user) return null;
 
-    const token = TokenMediator.createToken(user.password, user.id)
+    const token = TokenMediator.create(user.password, user.id)
 
     return token;
 };

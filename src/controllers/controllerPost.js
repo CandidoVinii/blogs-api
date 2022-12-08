@@ -25,7 +25,7 @@ const postDelete = async (req, res) => {
     const token = req.header('Authorization');
 
     const response = await deletePost(id, token);
-    if (!response) return res.status(404).send({ message: 'Post not found' });
+    if (response === false) return res.status(404).send({ message: 'Post not found' });
     return res.status(204).end();
 };
 

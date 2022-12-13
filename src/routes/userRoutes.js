@@ -6,6 +6,7 @@ const tokenValidate = require('../middlewares/tokenValidate');
 const router = express.Router();
 
 router.post('/', validation.userValidation, validation.userVerificate, controller.create);
+router.patch('/reset-password', tokenValidate, controller.resetPassword);
 router.get('/:id', tokenValidate, controller.getById);
 router.get('/', tokenValidate, controller.getAll);
 

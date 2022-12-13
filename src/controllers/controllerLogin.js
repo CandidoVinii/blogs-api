@@ -5,13 +5,9 @@ const login = async (req, res) => {
     if (!email || !password) {
         return res.status(400).send({ message: 'Some required fields are missing' });
     }
-    try {
-        const response = await service.login({ email, password });
-        if (!response) return res.status(400).send({ message: 'Invalid fields' });
-        res.status(200).send({ token: response });
-    } catch (err) {
-        console.log(err.message);
-    }
+    const response = await service.loginUser({ email, password });
+    if (!response) return res.status(400).send({ message: 'Invalid fields' });
+    res.status(200).send({ token: response });
 };
 
 module.exports = { login };
